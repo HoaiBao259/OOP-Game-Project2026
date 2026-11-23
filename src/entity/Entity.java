@@ -1,12 +1,11 @@
 package entity;
 
-import main.Constant;
-import main.GamePanel;
-
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import main.Constant;
+import main.GamePanel;
 
 public class Entity {
     public GamePanel gp;

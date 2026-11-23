@@ -1,9 +1,5 @@
 package utils;
 
-public class KeyHandler {
-}
-package utils;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

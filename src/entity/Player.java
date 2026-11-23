@@ -1,9 +1,5 @@
 package entity;
 
-public class Player extends Entity {
-}
-package entity;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
