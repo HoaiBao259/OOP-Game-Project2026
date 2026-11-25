@@ -1,18 +1,13 @@
 package skills;
 
-import main.Constant;
 import main.GamePanel;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 public class HomingOrb {
-    private final GamePanel gp;
+    private GamePanel gp;
     public int x, y;
     public int speed = 6;
     public int damage = 5;
     public boolean active = true;
-    private int lifeTime = 240;
 
     public HomingOrb(int x, int y, GamePanel gp) {
         this.x = x;
@@ -21,10 +16,6 @@ public class HomingOrb {
     }
 
     public void update(GamePanel gp) {
-        if (!active) {
-            return;
-        }
-
         int dx = gp.player.worldX - x;
         int dy = gp.player.worldY - y;
         double distance = Math.sqrt((double) dx * dx + (double) dy * dy);
@@ -36,27 +27,16 @@ public class HomingOrb {
         if (gp.player.getHitBox().contains(x, y)) {
             gp.player.damageHp(damage);
             active = false;
-            return;
         }
-
-        lifeTime--;
-        int maxWorldX = Constant.maxWorldCol * Constant.tileSize;
-        int maxWorldY = Constant.maxWorldRow * Constant.tileSize;
-        if (lifeTime <= 0 || x < 0 || x >= maxWorldX || y < 0 || y >= maxWorldY) {
+        int maxWorldX = main.Constant.maxWorldCol * main.Constant.tileSize;
+        int maxWorldY = main.Constant.maxWorldRow * main.Constant.tileSize;
+        if (x < 0 || x >= maxWorldX || y < 0 || y >= maxWorldY) {
             active = false;
         }
     }
 
-    public void draw(Graphics g2) {
-        if (!active) {
-            return;
-        }
-        g2.setColor(Color.MAGENTA);
-        g2.fillOval(
-                x - 8 - gp.screenManagement.getScreenX(),
-                y - 8 - gp.screenManagement.getScreenY(),
-                16,
-                16
-        );
+    public void draw(java.awt.Graphics g2) {
+        g2.setColor(java.awt.Color.MAGENTA);
+        g2.fillOval(x - 8 - gp.screenManagement.getScreenX(), y - 8 - gp.screenManagement.getScreenY(), 16, 16);
     }
 }

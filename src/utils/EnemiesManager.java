@@ -2,14 +2,15 @@ package utils;
 
 import entity.Crep;
 import entity.Entity;
+import inGameEntity.enemies.BossManticore;
+import inGameEntity.enemies.ElderLich;
 import inGameEntity.enemies.MiasmaMage;
 import inGameEntity.enemies.Warbeast;
-import main.Constant;
-import main.GamePanel;
-
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
+import main.Constant;
+import main.GamePanel;
 
 public class EnemiesManager {
     GamePanel gp;
@@ -20,14 +21,14 @@ public class EnemiesManager {
     private int maxActiveEnemies = 8;
     private static final int MAX_SPAWN_DISTANCE = 200;
 
-    private ArrayList<Entity> enemies = new ArrayList<>();
-
     public static EnemiesManager getInstance(GamePanel gp) {
         if (instance == null) {
             instance = new EnemiesManager(gp);
         }
         return instance;
     }
+
+    private ArrayList<Entity> enemies = new ArrayList<>();
 
     private EnemiesManager(GamePanel gp) {
         this.gp = gp;
@@ -37,6 +38,7 @@ public class EnemiesManager {
         for (Entity enemy : enemies) {
             enemy.growth();
         }
+
         maxActiveEnemies++;
         spawnInterval = Math.max(20, spawnInterval - 4);
     }
@@ -70,13 +72,12 @@ public class EnemiesManager {
                 + random.nextInt(MAX_SPAWN_DISTANCE + 1);
         int maxX = Constant.maxWorldCol * Constant.tileSize - Constant.tileSize;
         spawnX = Math.min(spawnX, maxX);
-
         int minY = (Constant.laneTopWallRow + 1) * Constant.tileSize + Constant.tileSize / 2;
         int maxY = Constant.laneBottomWallRow * Constant.tileSize - Constant.tileSize / 2;
         int spawnY = minY + random.nextInt(maxY - minY + 1);
 
         Entity enemy;
-        switch (random.nextInt(4)) {
+        switch (random.nextInt(6)) {
             case 0:
             case 1:
                 enemy = new Crep(gp, spawnX, spawnY);
@@ -84,8 +85,14 @@ public class EnemiesManager {
             case 2:
                 enemy = new MiasmaMage(gp, spawnX, spawnY);
                 break;
-            default:
+            case 3:
                 enemy = new Warbeast(gp, spawnX, spawnY);
+                break;
+            case 4:
+                enemy = new ElderLich(gp, spawnX, spawnY);
+                break;
+            default:
+                enemy = new BossManticore(gp, spawnX, spawnY);
                 break;
         }
         enemy.growth();
@@ -102,6 +109,8 @@ public class EnemiesManager {
             }
             if (enemy instanceof MiasmaMage) {
                 ((MiasmaMage) enemy).drawProjectiles(g2);
+            } else if (enemy instanceof BossManticore) {
+                ((BossManticore) enemy).drawProjectiles(g2);
             }
         }
     }
