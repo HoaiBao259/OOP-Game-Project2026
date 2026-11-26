@@ -1,12 +1,11 @@
 package main;
 
+import entity.Player;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import javax.swing.JPanel;
-import entity.Player;
 import java.awt.Toolkit;
-
+import javax.swing.JPanel;
 import utils.*;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -21,7 +20,6 @@ public class GamePanel extends JPanel implements Runnable {
     public EnemiesManager enemiesManager = EnemiesManager.getInstance(this);
     public ProjectileManager projectileManager = ProjectileManager.getInstance();
     public CooldownManager cooldownManager = CooldownManager.getInstance();
-    public StatueManager statueManager = StatueManager.getInstance(this);
     public CardChoosingState cardChoosingState = CardChoosingState.getInstance(this);
     private Sound backgroundMusic;
 
@@ -99,7 +97,6 @@ public class GamePanel extends JPanel implements Runnable {
         player.draw(g2);
         enemiesManager.drawEnemies(g2);
         projectileManager.drawProjectiles(g2);
-        statueManager.drawStatues(g2);
         if (gameState == GameState.CARD_CHOOSING) {
             cardChoosingState.draw(g2);
         }

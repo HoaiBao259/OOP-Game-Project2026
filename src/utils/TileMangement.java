@@ -1,13 +1,11 @@
 package utils;
 
+import inGameEntity.Tile;
 import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStream;
-import java.awt.image.BufferedImage;
 import java.io.InputStreamReader;
-
-import inGameEntity.Tile;
 import main.Constant;
 import main.GamePanel;
 
@@ -87,13 +85,7 @@ public class TileMangement {
                 floorSheet.getSubimage(0, subTileSize, subTileSize, subTileSize),
                 floorSheet.getSubimage(subTileSize, subTileSize, subTileSize, subTileSize)
         };
-        for (int row = 0; row < Constant.maxWorldRow; row++) {
-            for (int col = 0; col < Constant.maxWorldCol; col++) {
-                if (mapTileNum[col][row] == 2) {
-                    StatueManager.getInstance(gp).addStatue(new Point(col, row));
-                }
-            }
-        }
+        
     }
 
     public void draw(Graphics2D g2d) {

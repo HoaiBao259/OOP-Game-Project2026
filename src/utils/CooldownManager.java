@@ -6,10 +6,6 @@ import skills.Skill;
 
 public class CooldownManager {
     private static CooldownManager instance = null;
-    private Map<Skill, Double> cooldowns = new HashMap();
-
-    public CooldownManager() {
-    }
 
     public static CooldownManager getInstance() {
         if (instance == null) {
@@ -18,15 +14,17 @@ public class CooldownManager {
         return instance;
     }
 
-    public boolean available(Skill var1) {
-      return this.currentTime() >= (Double)this.cooldowns.getOrDefault(var1, (double)0.0F);
-   }
+    private Map<Skill, Double> cooldowns = new HashMap<>();
 
-   public void start(Skill var1) {
-      this.cooldowns.put(var1, this.currentTime() + var1.cooldown);
-   }
+    public boolean available(Skill s) {
+        return currentTime() >= cooldowns.getOrDefault(s, 0d);
+    }
 
-   private double currentTime() {
-      return (double)System.currentTimeMillis() / (double)1000.0F;
-   }
+    public void start(Skill s) {
+        cooldowns.put(s, currentTime() + s.cooldown);
+    }
+
+    private double currentTime() {
+        return System.currentTimeMillis() / 1000d; // Convert to seconds
+    }
 }

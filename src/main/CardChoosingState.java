@@ -2,49 +2,49 @@ package main;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import main.GamePanel.GameState;
 import utils.CardManager;
 import utils.MouseManager;
 
 public class CardChoosingState {
     private GamePanel gp;
     private static CardChoosingState instance = null;
-    private boolean cardsGenerated = false;
-    private CardManager cardManager = CardManager.getInstance();
-
-    public static CardChoosingState getInstance(GamePanel var0) {
+    public static CardChoosingState getInstance(GamePanel gp) {
         if (instance == null) {
-            instance = new CardChoosingState(var0);
+            instance = new CardChoosingState(gp);
         }
         return instance;
     }
+    private boolean cardsGenerated = false;
+    private CardManager cardManager = CardManager.getInstance();
 
-    public CardChoosingState(GamePanel var1) {
-        this.gp = var1;
+    public CardChoosingState(GamePanel gp) {
+        this.gp = gp;
     }
 
     public void update() {
-        if (!this.cardsGenerated) {
-            this.cardManager.generateCards();
-            this.cardsGenerated = true;
+        if (!cardsGenerated) {
+            cardManager.generateCards();
+            cardsGenerated = true;
         }
-
-        if(MouseManager.getInstance().clicked){
-            int var1 = MouseManager.getInstance().mouseX;
-            int var2 = MouseManager.getInstance().mouseY;
-            MouseManager.getInstance().clicked = false;
-            if (this.cardManager.checkCardClick(var1, var2)){
-                this.cardsGenerated = false;
-                this.gp.gameState = GameState.PLAYING;
+        if (MouseManager.getInstance().clicked) {
+            int mouseX = MouseManager.getInstance().mouseX;
+            int mouseY = MouseManager.getInstance().mouseY;
+            MouseManager.getInstance().clicked = false; // Reset click state
+            if (cardManager.checkCardClick(mouseX, mouseY)){
+                cardsGenerated = false; // Prepare for next card generation 
+                gp.gameState = GamePanel.GameState.PLAYING;            
             }
+            
         }
     }
 
-    public void draw(Graphics2D var1) {
-        if (this.cardsGenerated){
-            var1.setColor(new Color(0, 0, 0, 150));
-            var1.fillRect(0, 0, 1408, 1024);
-            this.cardManager.drawCards(var1);
+    public void draw(Graphics2D g2) {
+        if (!cardsGenerated) {
+            return;
         }
+         // Darken the background
+        g2.setColor(new Color(0, 0, 0, 150)); // 150 opacity = 60% dark
+        g2.fillRect(0, 0, Constant.screenWidth, Constant.screenHeight);
+        cardManager.drawCards(g2);
     }
 }

@@ -5,9 +5,9 @@ public class Card {
     public String description;
     public int bonus;
 
-    public Card(String var1, String var2, int var3){
-        this.name = var1;
-        this.description = var2;
-        this.bonus = var3;
-    }
+    public Card(String name, String description, int bonus) {
+    this.name = name;
+    this.description = description;
+    this.bonus = bonus;
+}
 }
